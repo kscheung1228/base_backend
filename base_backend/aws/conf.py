@@ -1,4 +1,5 @@
 import datetime
+import os
 # from django.conf import settings
 
 AWS_ACCESS_KEY_ID = os.environ.get('AWS_ACCESS_KEY_ID')
