@@ -10,7 +10,7 @@ AWS_QUERYSTRING_AUTH = True
 
 DEFAULT_FILE_STORAGE = 'base_backend.aws.utils.MediaRootS3BotoStorage'
 STATICFILES_STORAGE = 'base_backend.aws.utils.StaticRootS3BotoStorage'
-AWS_STORAGE_BUCKET_NAME = 'jershingbase'
+AWS_STORAGE_BUCKET_NAME = 'kscheung1228base'
 S3DIRECT_REGION = 'us-west-2'
 S3_URL = '//%s.s3.amazonaws.com/' % AWS_STORAGE_BUCKET_NAME
 MEDIA_URL = '//%s.s3.amazonaws.com/media/' % AWS_STORAGE_BUCKET_NAME
