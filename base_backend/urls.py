@@ -20,13 +20,17 @@ Including another URLconf
 #     path('admin/', admin.site.urls),
 # ]
 
-from django.conf.urls import url
+from django.conf.urls import url, path,re_path,include
 from django.contrib import admin
 from django.views.generic.base import TemplateView
+from files.views import DownloadView, UploadView, UploadPolicyView
+
 # from new_app.views import *
 
 urlpatterns = [
     url(r'^admin/', admin.site.urls),
-    # url(r'^getData/', get_data),
+    re_path(r'^files/(?P<id>\d+)/download/$', DownloadView.as_view()), # 2.0 +
+    re_path(r'^upload/$', UploadView.as_view()), # 2.0 +
+    re_path(r'^upload/policy/$', UploadPolicyView.as_view()), # 2.0 +
     url(r'^.*', TemplateView.as_view(template_name="home.html"), name="home")
 ]
