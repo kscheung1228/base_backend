@@ -1,5 +1,5 @@
 from django.contrib import admin
-
+from .models import Baseitem
 # Register your models here.
 
 # class StepInline(admin.StackedInline):
@@ -19,12 +19,9 @@ from django.contrib import admin
 # admin.site.register(Homework,HomeworkAdmin)
 
 class BaseitemAdmin(admin.ModelAdmin):
-    list_display = ('itemname','itemfile','id','pk')
-    # empty_value_display = '--empty--'
+    list_display = ('itemname','itemfile')
+    empty_value_display = '--empty--'
 
-    fields = ('itemname','itemfile','id','pk')
+    fields = ('itemname','itemfile')
 
-    # inlines = [
-    #     StepInline,
-    # ]
-admin.site.register(BaseitemAdmin)
+admin.site.register(Baseitem,BaseitemAdmin)

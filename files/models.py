@@ -2,7 +2,9 @@ import os
 from django.conf import settings
 from django.db import models
 from django.utils.text import slugify
-from cfehome.aws.utils import AWS
+from base_backend.aws.conf import AWS
+from django.contrib.contenttypes.models import ContentType
+from django.contrib.contenttypes.fields import GenericForeignKey
 
 User = settings.AUTH_USER_MODEL
 
@@ -23,6 +25,9 @@ class S3File(models.Model):
     duration    = models.DecimalField(max_digits=30, decimal_places=6, blank=True, null=True)
     updated     = models.DateTimeField(auto_now=True)# any changes
     timestamp   = models.DateTimeField(auto_now_add=True)# when added
+    content_type = models.ForeignKey(ContentType, on_delete=models.CASCADE, blank=True, null=True)
+    object_id = models.PositiveIntegerField(blank=True, null=True)
+    baseitem_content_type_object = GenericForeignKey('content_type', 'object_id')
     
     def get_file_ext(self):
         return os.path.splitext(self.key)[1] # path/to/file/upload.png - > path/to/file/upload, .png

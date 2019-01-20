@@ -6,9 +6,12 @@ from django.views.decorators.csrf import csrf_exempt
 from django.shortcuts import render, get_object_or_404
 from django.http import HttpResponseRedirect, Http404, JsonResponse
 from django.utils.decorators import method_decorator
+from .models import S3File
+from rest_framework import generics, mixins, viewsets
+from rest_framework.response import Response
 
-
-from cfehome.aws.utils import AWS
+# from cfehome.aws.utils import AWS
+from base_backend.aws.conf import AWS
 from .models import S3File
 from .serializers import S3FileSerializer
 
@@ -35,6 +38,13 @@ class UploadPolicyView(View): # RESTful API Endpoint
         #botocfe = AWS()
         #presigned_data = botocfe.presign_post_url(key=key)
         return JsonResponse({"detail": "Method not allowed"}, status=403)
+
+    # def get(self, request, *args, **kwargs):
+    #     key = request.GET.get('key', 'unknown.jpg')
+    #     botocfe = AWS()
+    #     presigned_data = botocfe.presign_post_url(key=key)
+    #     return JsonResponse(presigned_data)
+        
 
     def put(self, request, *args, **kwargs):
         #print(request.body)
@@ -68,3 +78,16 @@ class UploadPolicyView(View): # RESTful API Endpoint
             return JsonResponse(presigned_data)
         return JsonResponse({"detail": "Invalid request"}, status=401)
 
+
+
+class S3FileViewSet(viewsets.ModelViewSet):
+    queryset = S3File.objects.all()
+    serializer_class = S3FileSerializer
+
+    def list (self,request, *arg, **kwargs):
+        s3files = S3File.objects.all()
+        serializer = S3FileSerializer(s3files, many = True)
+        return Response(serializer.data)
+
+
+   
