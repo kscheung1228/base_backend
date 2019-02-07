@@ -25,7 +25,10 @@ from django.contrib import admin
 from django.views.generic.base import TemplateView
 from files.views import DownloadView, UploadView, UploadPolicyView
 from django.urls import path,re_path,include
-
+from rest_framework_simplejwt.views import (
+    TokenObtainPairView,
+    TokenRefreshView,
+)
 # from new_app.views import *
 
 urlpatterns = [
@@ -34,5 +37,7 @@ urlpatterns = [
     re_path(r'^files/(?P<id>\d+)/download/$', DownloadView.as_view()), # 2.0 +
     re_path(r'^upload/$', UploadView.as_view()), # 2.0 +
     re_path(r'^upload/policy/$', UploadPolicyView.as_view()), # 2.0 +
-    url(r'^.*', TemplateView.as_view(template_name="home.html"), name="home")
+    url(r'^.*', TemplateView.as_view(template_name="home.html"), name="home"),
+    url(r'^api/token/$', TokenObtainPairView.as_view(), name='token_obtain_pair'),
+    url(r'^api/token/refresh/$', TokenRefreshView.as_view(), name='token_refresh'),
 ]

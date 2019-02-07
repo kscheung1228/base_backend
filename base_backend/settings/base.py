@@ -25,7 +25,20 @@ SECRET_KEY = '=vk-$zgbf$$4qqh9n)fm0*g*kjq7d-15^r-pk5stfmme8x67y&'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['*']
+
+CORS_ORIGIN_ALLOW_ALL = True
+
+CORS_ORIGIN_WHITELIST = (
+    'google.com',
+    'jershingnotes.herokuapp.com',
+    'localhost:4200',
+    'localhost:4201',
+    '127.0.0.1:8000',
+    'www.jershing.com',
+    'http://localhost:4200',
+    'http://localhost:4201',
+)
 
 
 # Application definition
@@ -41,6 +54,7 @@ INSTALLED_APPS = [
     'basemodel',
     'files',
     'rest_framework',
+    'corsheaders',
 ]
 
 MIDDLEWARE = [
@@ -51,6 +65,8 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+
+    'corsheaders.middleware.CorsMiddleware',
 ]
 
 ROOT_URLCONF = 'base_backend.urls'

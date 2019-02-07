@@ -33,17 +33,17 @@ class UploadView(TemplateView):
 
 @method_decorator(csrf_exempt, name='dispatch')
 class UploadPolicyView(View): # RESTful API Endpoint
-    def get(self, request, *args, **kwargs):
-        #key = request.GET.get('key', 'unknown.jpg')
-        #botocfe = AWS()
-        #presigned_data = botocfe.presign_post_url(key=key)
-        return JsonResponse({"detail": "Method not allowed"}, status=403)
-
     # def get(self, request, *args, **kwargs):
-    #     key = request.GET.get('key', 'unknown.jpg')
-    #     botocfe = AWS()
-    #     presigned_data = botocfe.presign_post_url(key=key)
-    #     return JsonResponse(presigned_data)
+    #     #key = request.GET.get('key', 'unknown.jpg')
+    #     #botocfe = AWS()
+    #     #presigned_data = botocfe.presign_post_url(key=key)
+    #     return JsonResponse({"detail": "Method not allowed"}, status=403)
+
+    def get(self, request, *args, **kwargs):
+        key = request.GET.get('key', 'unknown.jpg')
+        botocfe = AWS()
+        presigned_data = botocfe.presign_post_url(key=key)
+        return JsonResponse(presigned_data)
         
 
     def put(self, request, *args, **kwargs):
@@ -61,6 +61,7 @@ class UploadPolicyView(View): # RESTful API Endpoint
         """
         data            = json.loads(request.body)
         serializer      = S3FileSerializer(data=data) # ModelForm
+        print ("file serializer post data", data)
         if serializer.is_valid(raise_exception=True):
             validated_data  = serializer.validated_data
             raw_filename    = validated_data.pop("raw_filename")
