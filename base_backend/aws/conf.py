@@ -135,3 +135,14 @@ class AWS:
                 Conditions = conditions
             )
         return data
+
+    def upload_file(self, fileobj=None, key=None):
+        s3_client = self.get_s3_client()
+        data = s3_client.upload_fileobj(
+            Fileobj = fileobj, 
+            Bucket = self.bucket,
+            Key = key,
+            ExtraArgs=None, 
+            Callback=None, 
+            Config=None)
+        return data

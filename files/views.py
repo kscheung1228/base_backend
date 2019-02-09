@@ -55,29 +55,128 @@ class UploadPolicyView(View): # RESTful API Endpoint
         return JsonResponse({"detail": "Success!"}, status=200)
 
 
+    # def post(self, request, *args, **kwargs):
+    #     """
+    #     Requires Security
+    #     """
+    #     print ("request", request)
+    #     # print ("request.body", request.body)
+    #     # print(request.body.toString())
+    #     print("request.read",request.read())
+    #     # body_unicode = request.body.decode('utf-8')
+    #     # body_data = json.loads(body_unicode)
+    #     # print("body_unicode",body_unicode)
+    #     requestread = request.read()
+    #     print ("---linebreaker----")
+    #     print (requestread)
+    #     print ("---linebreaker----")
+    #     bodydecode = request.read().decode('cp437')
+
+    #     # print ("request.body.decode('utf-8')",type(request.read().decode('utf-8')))
+    #     # print ("body.decode('utf-8')",body.decode('cp437'))
+    #     # print("str(body, encoding)",str(body, 'cp437'))
+
+    #     try:
+    #         print ("request.names",request.body.names)
+    #     except:
+    #         pass
+        
+    #     try:
+    #         print ("request.FILES",request.FILES)
+    #     except:
+    #         pass
+
+    #     try:
+    #         print ("request.FILES",request.type)
+    #     except:
+    #         pass
+
+    #     try:
+    #         body_unicode = request.body.decode('utf-8')
+    #         body_data = json.loads(body_unicode)
+    #         print ("requestbody_unicode")
+    #     except:
+    #         pass
+
+    #     try:
+    #         print(request.META.get('name'))
+    #         print(request.META)
+    #         print ("requestbodyMETA_name")
+    #     except:
+    #         pass
+
+
+    #     try:
+    #         print(request.body.get('name'))
+    #         print(request.body.get('filename'))
+    #         print ("requestbody_name")
+    #     except:
+    #         pass
+
+    #     try:
+    #         print(request.body.toString())
+            
+    #         print ("requestbody_name.toString")
+    #     except:
+    #         pass
+
+
+    #     # print ("request.META",request.META)
+
+        
+        
+    #     data            = json.loads(request.body)
+    #     print ("file serializer post data", data)
+    #     filetype = "image/vnd.microsoft.icon"
+    #     raw_filename = "IMG_6427.ico"
+
+    #     # files            = json.loads(request.FILES)
+    #     serializer      = S3FileSerializer(data=data) # ModelForm
+    #     print ("file serializer post data", data)
+    #     if serializer.is_valid(raise_exception=True):
+    #         validated_data  = serializer.validated_data
+    #         raw_filename    = validated_data.pop("raw_filename")
+    #         user    = User.objects.first() #cfe user # request.user
+    #         qs      = S3File.objects.filter(user=user)
+    #         count   = qs.count() + 1
+    #         key     = f'users/{user.id}/files/{count}/{raw_filename}'
+    #         obj     = serializer.save(
+    #                 user=user,
+    #                 key=key
+    #             )
+    #         botocfe = AWS()
+    #         presigned_data = botocfe.presign_post_url(key=key)
+    #         presigned_data['object_id'] = obj.id
+
+    #         return JsonResponse(presigned_data)
+    #     return JsonResponse({"detail": "Invalid request"}, status=401)
+
     def post(self, request, *args, **kwargs):
         """
         Requires Security
         """
-        data            = json.loads(request.body)
-        serializer      = S3FileSerializer(data=data) # ModelForm
-        print ("file serializer post data", data)
-        if serializer.is_valid(raise_exception=True):
-            validated_data  = serializer.validated_data
-            raw_filename    = validated_data.pop("raw_filename")
-            user    = User.objects.first() #cfe user # request.user
-            qs      = S3File.objects.filter(user=user)
-            count   = qs.count() + 1
-            key     = f'users/{user.id}/files/{count}/{raw_filename}'
-            obj     = serializer.save(
-                    user=user,
-                    key=key
-                )
-            botocfe = AWS()
-            presigned_data = botocfe.presign_post_url(key=key)
-            presigned_data['object_id'] = obj.id
-            return JsonResponse(presigned_data)
-        return JsonResponse({"detail": "Invalid request"}, status=401)
+        print ("type(request.FILES)",type(request.FILES.getlist('file')))
+        print ("type(request.FILES)",request.FILES.getlist('file'))
+
+        # print ("type(request.FILES)",type(request.FILES['file']))
+        # print ("type(request.FILES)",request.FILES['file'])
+    
+        filetype = "image/vnd.microsoft.icon"
+        raw_filename = "IMG_6427.ico"
+        user    = User.objects.first() #cfe user # request.user
+        qs      = S3File.objects.filter(user=user)
+        count   = qs.count() + 1
+        key     = f'users/{user.id}/files/{count}/{raw_filename}'
+        # obj     = serializer.save(
+        #         user=user,
+        #         key=key
+        #     )
+        botocfe = AWS()
+        presigned_data = botocfe.presign_post_url(key=key)
+        # presigned_data['object_id'] = obj.id
+        # uploadedfile_data = botocfe.upload_file(fileobj=request.FILES, key=key)
+        # print ("uploadedfile_data",uploadedfile_data)
+        return JsonResponse(presigned_data)
 
 
 
